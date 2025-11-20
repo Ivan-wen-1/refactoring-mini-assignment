@@ -1,3 +1,4 @@
+d735025 Task 2.3: remove frmt and create usd method
 37a1a58 Task 2.2: extract getVolumeCredits method
 886a430 Task 2.1: extract getAmount method and rename variables
 23fbbca Task 2.1: extract getAmount method and rename variables

@@ -15,7 +15,7 @@ public class Play {
     }
 
     public String getName() {
-        return namw;
+        return name;
     }
 
     public String getType() {
