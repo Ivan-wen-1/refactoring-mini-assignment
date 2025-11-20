@@ -27,13 +27,9 @@ public class StatementPrinter {
 
         for (Performance performance : invoice.getPerformances()) {
             int thisAmount = getAmount(performance);
-
             Play play = plays.get(performance.getPlayID());
 
-            volumeCredits += Math.max(performance.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
-            if ("comedy".equals(play.type)) {
-                volumeCredits += performance.getAudience() / Constants.COMEDY_EXTRA_VOLUME_FACTOR;
-            }
+            volumeCredits += getVolumeCredits(performance);
 
             result.append(String.format("  %s: %s (%s seats)%n",
                     play.name,
@@ -69,6 +65,15 @@ public class StatementPrinter {
                 break;
             default:
                 throw new RuntimeException(String.format("unknown type: %s", play.type));
+        }
+        return result;
+    }
+
+    private int getVolumeCredits(Performance performance) {
+        Play play = plays.get(performance.getPlayID());
+        int result = Math.max(performance.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
+        if ("comedy".equals(play.type)) {
+            result += performance.getAudience() / Constants.COMEDY_EXTRA_VOLUME_FACTOR;
         }
         return result;
     }

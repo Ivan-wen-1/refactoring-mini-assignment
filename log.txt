@@ -1,2 +1,5 @@
+886a430 Task 2.1: extract getAmount method and rename variables
+23fbbca Task 2.1: extract getAmount method and rename variables
+d2720ff Task 1.2: update git log file
 fa047c5 Task 1.1: fix CheckStyle issues (list summary)
 43ac578 Initial commit
