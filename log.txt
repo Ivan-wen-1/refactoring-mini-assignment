@@ -1,0 +1,2 @@
+fa047c5 Task 1.1: fix CheckStyle issues (list summary)
+43ac578 Initial commit
