@@ -16,11 +16,6 @@ public class StatementPrinter {
         this.plays = plays;
     }
 
-    /**
-     * Returns a formatted statement of the invoice associated with this printer.
-     * @return the formatted statement
-     * @throws RuntimeException if one of the play types is not known
-     */
     public String statement() {
         int totalAmount = 0;
         int volumeCredits = 0;
@@ -31,34 +26,29 @@ public class StatementPrinter {
         final NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance performance : invoice.getPerformances()) {
-            final Play play = plays.get(performance.getPlayID());
+            int thisAmount = getAmount(performance);
 
-            int amount = getAmount(performance, play);
+            Play play = plays.get(performance.getPlayID());
 
             volumeCredits += Math.max(performance.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
-            // add extra credit for every five comedy attendees
             if ("comedy".equals(play.type)) {
                 volumeCredits += performance.getAudience() / Constants.COMEDY_EXTRA_VOLUME_FACTOR;
             }
 
             result.append(String.format("  %s: %s (%s seats)%n",
                     play.name,
-                    frmt.format(amount / Constants.PERCENT_FACTOR),
+                    frmt.format(thisAmount / Constants.PERCENT_FACTOR),
                     performance.getAudience()));
-            totalAmount += amount;
+            totalAmount += thisAmount;
         }
+
         result.append(String.format("Amount owed is %s%n", frmt.format(totalAmount / Constants.PERCENT_FACTOR)));
         result.append(String.format("You earned %s credits%n", volumeCredits));
         return result.toString();
     }
 
-    /**
-     * Calculate the amount for a single performance.
-     * @param performance the performance to calculate
-     * @param play the play associated with the performance
-     * @return amount in cents
-     */
-    private int getAmount(Performance performance, Play play) {
+    private int getAmount(Performance performance) {
+        Play play = plays.get(performance.getPlayID());
         int result = 0;
         switch (play.type) {
             case "tragedy":
@@ -72,8 +62,8 @@ public class StatementPrinter {
                 result = Constants.COMEDY_BASE_AMOUNT;
                 if (performance.getAudience() > Constants.COMEDY_AUDIENCE_THRESHOLD) {
                     result += Constants.COMEDY_OVER_BASE_CAPACITY_AMOUNT
-                            + Constants.COMEDY_OVER_BASE_CAPACITY_PER_PERSON
-                            * (performance.getAudience() - Constants.COMEDY_AUDIENCE_THRESHOLD);
+                            + (Constants.COMEDY_OVER_BASE_CAPACITY_PER_PERSON
+                            * (performance.getAudience() - Constants.COMEDY_AUDIENCE_THRESHOLD));
                 }
                 result += Constants.COMEDY_AMOUNT_PER_AUDIENCE * performance.getAudience();
                 break;
@@ -83,3 +73,4 @@ public class StatementPrinter {
         return result;
     }
 }
+
