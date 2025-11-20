@@ -1,0 +1,23 @@
+[
+  {
+    "groupId": 0,
+    "name": "refactoring-mini-assignment",
+    "describe": "项目分组",
+    "parentId": 0,
+    "projectFlag": "028de69d3f5a52ce7dc4c95a9c19f900"
+  },
+  {
+    "groupId": 2,
+    "name": "IDEA书签",
+    "describe": "IDEA书签分组(存储IDEA内置书签功能添加的书签)",
+    "parentId": 0,
+    "projectFlag": "028de69d3f5a52ce7dc4c95a9c19f900"
+  },
+  {
+    "groupId": 1,
+    "name": "回收站",
+    "describe": "回收站分组(默认:每次启动之后会删除清理一次)",
+    "parentId": 0,
+    "projectFlag": "028de69d3f5a52ce7dc4c95a9c19f900"
+  }
+]
