@@ -1,3 +1,4 @@
+37a1a58 Task 2.2: extract getVolumeCredits method
 886a430 Task 2.1: extract getAmount method and rename variables
 23fbbca Task 2.1: extract getAmount method and rename variables
 d2720ff Task 1.2: update git log file
