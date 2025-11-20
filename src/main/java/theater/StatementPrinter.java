@@ -4,14 +4,23 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * This class generates a statement for a given invoice of performances.
+ */
 public class StatementPrinter {
     private Invoice invoice;
-    private Map<String, Play> plays;
+    private final Map<String, Play> plays;
 
     public StatementPrinter(Invoice invoice, Map<String, Play> plays) {
         this.invoice = invoice;
         this.plays = plays;
     }
+
+    /**
+     * Generates a formatted statement for the invoice associated with this printer.
+     *
+     * @return the statement as a String
+     */
 
     public String statement() {
         final StringBuilder result = new StringBuilder("Statement for "
@@ -19,8 +28,8 @@ public class StatementPrinter {
                 + System.lineSeparator());
 
         for (Performance performance : invoice.getPerformances()) {
-            Play play = plays.get(performance.getPlayID());
-            int thisAmount = getAmount(performance);
+            final Play play = getPlay(performance);
+            final int thisAmount = getAmount(performance);
 
             result.append(String.format("  %s: %s (%s seats)%n",
                     play.getName(),
@@ -33,8 +42,12 @@ public class StatementPrinter {
         return result.toString();
     }
 
+    private Play getPlay(Performance performance) {
+        return plays.get(performance.getPlayID());
+    }
+
     private int getAmount(Performance performance) {
-        Play play = plays.get(performance.getPlayID());
+        final Play play = getPlay(performance);
         int result = 0;
         switch (play.getType()) {
             case "tragedy":
@@ -60,7 +73,7 @@ public class StatementPrinter {
     }
 
     private int getVolumeCredits(Performance performance) {
-        Play play = plays.get(performance.getPlayID());
+        final Play play = getPlay(performance);
         int result = Math.max(performance.getAudience() - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
         if ("comedy".equals(play.getType())) {
             result += performance.getAudience() / Constants.COMEDY_EXTRA_VOLUME_FACTOR;
